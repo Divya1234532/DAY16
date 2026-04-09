@@ -1,0 +1,31 @@
+class Solution {
+    public int[][] merge(int[][] intervals) 
+    {
+        Comparator<int[]> byZerothIndex=new Comparator<int[]>()
+        {
+            public int compare(int[] a,int[] b)
+            {
+                return Integer.compare(a[0],b[0]);
+            }
+        };
+        Arrays.sort(intervals,byZerothIndex);
+        List<int[]> result=new ArrayList<>();
+        for(int i=0;i<intervals.length;i++)
+        {
+            int[] current=intervals[i];
+            //directly add the element to result
+            if(result.isEmpty()||result.get(result.size()-1)[1]<current[0])
+            {
+                 result.add(current);
+            }
+            //to merge two arrays
+            else
+            {
+                int[] merge=result.get(result.size()-1); 
+                merge[1]=Math.max(merge[1],current[1]);
+            }
+
+        }
+        return result.toArray(new int[result.size()][]);
+    }
+}
